@@ -30,7 +30,7 @@ import {
 import { DataSources } from './components/DataSources'
 import { Answer } from './components/Answer'
 import { Followup } from './components/Followup'
-
+import { SearchBar } from '@/components/SearchBar'
 function useQuery() {
   const { search } = useLocation()
 
@@ -78,6 +78,7 @@ export const Search = () => {
     // id: bot?.id,
     // knowledge_id: bot?.knowledge_id,
     searchQuery,
+    model,
   })}`
 
   // const {
@@ -133,12 +134,11 @@ export const Search = () => {
     },
     onSuccess: (data: AxiosResponse | any) => {
       console.log(data)
-
+      const sources = Array.isArray(data.data) ? data.data : [data.data];
       const formattedResponse: ResponseDataType = {
         response: 'OK',
         sources: data.data,
-      }
-
+      };
       setResponseData(formattedResponse)
 
       if (
@@ -201,27 +201,32 @@ export const Search = () => {
   //   setSummary(responseData?.summary ? responseData?.summary : "")
   // }, [responseData])
   console.log("Response data:",responseData);
-  return (
-    <ScrollArea className="h-screen bg-secondaryLight">
-      <div className="py-4 px-8 flex justify-between items-center">
-        <span className="flex items-center space-x-1"></span>
-      </div>
-      <Separator />
-      <div className="py-4 space-y-6 flex flex-col justify-center items-center">
-        <div className="w-3/5 space-y-4">
-          <p className="text-olive-green break-words [word-break:break-word] text-3xl mb-2">
-            {searchQuery}
-          </p>
-          <DataSources responseData={responseData!} loading={isPending} />
-
-            {/* <Answer
-              sources={answer?.[1]?.dataSources ?? []}
-              loading={isPending}
-              searchQuery={searchQuery}
-              isQueryPath={isQueryPath}
-            /> */}
+    return (
+      <ScrollArea className="h-screen bg-secondaryLight">
+        <div className="h-screen flex flex-col bg-secondaryLight">
+          {/* Centered SearchBar */}
+          <div className="flex justify-center items-center flex-col py-10">
+            <p className="text-3xl text-olive-green mb-10">
+              Помощник по вопросам Ислама
+            </p>
+            <div className="w-[35rem]">
+              <SearchBar />
+            </div>
+          </div>
+  
+          {/* Separator between SearchBar and Data */}
+          <Separator />
+  
+          {/* DataSources Section */}
+          <div className="flex-grow p-8">
+            <div className="py-4 space-y-6 flex flex-col items-center">
+              <div className="w-4/5 space-y-4">
+                <h2 className="text-3xl text-olive-green">{searchQuery}</h2>
+                <DataSources responseData={responseData!} loading={isPending} />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </ScrollArea>
-  )
-}
+      </ScrollArea>
+    );
+  };
