@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import { v4 as generateUuid } from 'uuid'
 
 import { notify } from '@/components/ui/notification'
-import { USER_ID } from '../../utils/constants'
 import useHomeSlice from './home.store'
 import axios from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +23,6 @@ export const useBot = () => {
       const formData = new URLSearchParams()
 
       formData.append('data', JSON.stringify(data))
-      formData.append('user_id', USER_ID)
       formData.append('chatbot_name', `knowledgebase_${generateUuid()}`)
       formData.append('temperature', '0.7')
       formData.append('model', 'gpt-4-turbo-32k')

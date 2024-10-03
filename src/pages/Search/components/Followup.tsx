@@ -14,7 +14,6 @@ import {
   Button,
 } from '../../../components'
 import axios from '../../../utils/axios'
-import {  USER_ID } from '../../../utils/constants'
 import { Path, UserType } from '../../../utils/types'
 
 type IFollowup = {
@@ -39,7 +38,7 @@ const SubQuery: React.FC<ISubQuery> = ({ text, bot_id, knowledge_id }) => {
       axios({
         method: 'POST',
         // baseURL: CONVERSATION_API_URL,
-        url: `/conversation/${USER_ID}/${knowledge_id}/${bot_id}`,
+        url: `/conversation/${knowledge_id}/${bot_id}`,
         data: { role: UserType.user, content: text },
         headers: {
           'Access-Control-Allow-Origin': '*',
