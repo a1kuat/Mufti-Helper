@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mufti Helper</title>
+    <meta name="title" content="Mufti Helper" />
+    <meta name="description" content="Search the best open source repositories using Advanced AI.">
+
+    <style>
+      .svgLoader {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        width: 100vw;
+        animation: pulse 2.5s linear infinite;
+        margin: auto;
+        font-family: 'Hanken Grotesk';
+      }
+      .loader {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      @keyframes pulse {
+        0% { opacity: 0.2; }
+        100% { opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="svgLoader">
+        <div class="loader">
+          <!-- <img src="/Lyzr-Logo.svg" width="80" /> -->
+        <p>Загружаем помощник муфтия..</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
