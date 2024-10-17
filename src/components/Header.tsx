@@ -58,6 +58,13 @@ export const Header: React.FC<IHeader> = ({
     },
   ]
 
+  // Define the onSearch function that SearchBar will use
+  const onSearch = (query: string, model: string) => {
+    console.log('Searching for:', query, 'in model:', model);
+    // You can add any logic here, for example, navigate to a new page or update state
+    // navigate logic or function to handle search could be added here
+  }
+
   return (
     <div className="w-full h-[90%] flex flex-col items-center space-y-10">
       <div className={classNames("w-full p-2 flex items-center justify-between",
@@ -98,7 +105,6 @@ export const Header: React.FC<IHeader> = ({
       <Dialog
         open={searchBarVisible}
         onOpenChange={setSearchBarVisible}
-        // className="max-w-xl"
       >
         <DialogTrigger className="self-center">
           <Tooltip>
@@ -130,75 +136,9 @@ export const Header: React.FC<IHeader> = ({
           </Tooltip>
         </DialogTrigger>
         <DialogContent className="rounded-md p-2 pt-4 bg-[#FCFCF9]">
-          <SearchBar setSearchBarVisible={setSearchBarVisible} />
+          <SearchBar onSearch={onSearch}/> {/* Pass the onSearch function here */}
         </DialogContent>
       </Dialog>
-
-      <ul className="w-5/6 mt-2 space-y-2 font-medium">
-        <li>
-          <ul>
-            {mainMenu.map((item) => (
-              <li
-                key={item.link}
-                className={classNames(
-                  'list-outside text-gray-500 hover:text-olive-green hover:bg-black/5 text-md font-semibold p-2 rounded-md flex items-center space-x-1 disabled:cursor-not-allowed transition-all ease-in-out duration-150',
-                  location.pathname === item.link ? 'font-semibold' : '',
-                  toggleSider ? 'justify-center' : 'justify-start'
-                )}
-                onClick={() => navigate(item.link)}
-              >
-                <span>{item.icon}</span>
-                <p className={classNames(toggleSider ? 'hidden' : 'block')}>
-                  {item.name}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <ul
-            className={classNames(
-              'translate-x-6 px-2 space-y-2 max-h-[30rem] overflow-y-scroll no-scrollbar',
-              toggleSider ? 'hidden' : 'border-l-2 border-[#E8E8E3]'
-            )}
-          >
-            {history?.slice(0, 15)?.map((item) => (
-              <li
-                key={item.text}
-                className={classNames(
-                  'text-olive-green/70 hover:text-olive-green hover:bg-black/5 p-1 list-outside text-sm rounded-md flex items-center space-x-2 disabled:cursor-not-allowed transition-all ease-in-out duration-150',
-                  location.pathname === item.text ? 'font-semibold' : '',
-                  toggleSider ? 'justify-center' : 'justify-start'
-                )}
-                onClick={() =>
-                  navigate(
-                    `${Path.SEARCH}?data=${JSON.stringify({
-                      searchQuery: item.text,
-                    })
-                    }`
-                  )
-                }
-              >
-                <p className={classNames(toggleSider ? 'hidden' : 'block')}>
-                  {item.text}
-                </p>
-              </li>
-            ))}
-            {history.length > 15 && (
-              <li
-                key="plus more"
-                className={classNames(
-                  'hover:text-slate-900 list-outside text-sm rounded-md flex items-center space-x-2 disabled:cursor-not-allowed',
-                  toggleSider ? 'justify-center' : 'justify-start'
-                )}
-                onClick={() => navigate(Path.HISTORY)}
-              >
-                <p className={classNames(toggleSider ? 'hidden' : 'block')}>
-                  +{history.length - 15} more
-                </p>
-              </li>
-            )}
-          </ul>
-        </li>
-      </ul>
     </div>
   )
 }
