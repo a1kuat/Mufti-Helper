@@ -49,6 +49,7 @@ export enum POLLING_STATUS {
 
 export type IHistory = {
   text: string
+  model: string
   sources: SourceType[]
   created_at: Date
 }

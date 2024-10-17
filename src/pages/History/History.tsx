@@ -9,12 +9,15 @@ export const History = () => {
   const navigate = useNavigate()
   const { history, removeHistoryItem } = useHomeSlice((state) => state)
 
-  const onSearch = (text: string) => {
+  const onSearch = (text: string, model: string) => {
     if (text.length > 0) {
+      console.log("History search query:", text)
+      console.log("History model:", model)
       navigate(
         `${Path.SEARCH}?data=${btoa(
           JSON.stringify({
             searchQuery: text,
+            model: model,
           })
         )}`
       )
@@ -31,9 +34,13 @@ export const History = () => {
         <div className="self-center">
           <Listicle
             emptyMessage="Your query history will appear here"
-            list={history.map((item) => ({ ...item, name: item.text }))}
+            list={history.map((item) => ({
+              ...item,
+              name: item.text,
+              model: item.model,
+            }))}
             startIcon={<ClockIcon className="w-4 h-4 text-slate-400" />}
-            handleClick={(item: any) => onSearch(item)}
+            handleClick={(item: any) => onSearch(item.text, item.model)}
             onDelete={(item: any) => () => removeHistoryItem(item)}
           />
         </div>

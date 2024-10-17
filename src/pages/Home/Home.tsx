@@ -1,44 +1,27 @@
 import React, { useState } from 'react'
-import { SearchBar } from '../../components/SearchBar'
-import GithubCards from './githubCards'
-import { ScrollArea } from '../../components'
-import { Separator } from '@/components/ui/separator'
-import { Input } from '@/components/ui/input'
-import { ArrowRightCircleIcon } from '@heroicons/react/16/solid'
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { SearchBar } from '@/components/SearchBar'
+import { Search } from '../Search'
 
 export const Home: React.FC = () => {
-  const [license, setLicense] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [sortByStars, setSortByStars] = useState<boolean>(false)
-  const [sortByForks, setSortByForks] = useState<boolean>(false)
-  const [priority, setPriority] = useState<string>('stars')
+  const [model, setModel] = useState<string>('islamqa')
 
-  const toggleSortByStars = () => {
-    setSortByStars((prev) => !prev)
-    setPriority('stars')
-  }
-
-  const toggleSortByForks = () => {
-    setSortByForks((prev) => !prev)
-    setPriority('forks')
+  const handleSearch = (query: string, selectedModel: string) => {
+    setSearchQuery(query)
+    setModel(selectedModel)
   }
 
   return (
-      <div className="w-full h-screen flex flex-col justify-center items-center bg-[#FCFCF9]">
-        <p className="text-3xl text-olive-green mb-10">
-          Помощник по вопросам Ислама
-        </p>
+    <div className="w-full h-screen flex flex-col items-center bg-[#FCFCF9]">
+      <div className="flex flex-col justify-center items-center py-10">
+        <p className="text-3xl text-olive-green mb-10">Помощник по вопросам Ислама</p>
         <div className="w-[35rem]">
-          <SearchBar />
+          <SearchBar onSearch={handleSearch} />
         </div>
       </div>
+
+      {/* Pass the search query and model to the Search component */}
+      {searchQuery && <Search searchQuery={searchQuery} model={model} />}
+    </div>
   )
 }
