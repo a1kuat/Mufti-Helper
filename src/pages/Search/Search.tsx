@@ -59,7 +59,15 @@ export const Search: React.FC<SearchProps> = ({ searchQuery, model }) => {
           <div className="py-4 space-y-6 flex flex-col items-center">
             <div className="w-4/5 space-y-4">
               <h2 className="text-3xl text-olive-green">{searchQuery}</h2>
-              <DataSources responseData={responseData!} loading={isPending} />
+
+              {/* Display loader while pending */}
+              {isPending ? (
+                <div className="flex justify-center items-center">
+                  <div className="loader w-12 h-12 border-4 border-dashed rounded-full animate-spin border-black-500"></div>
+                </div>
+              ) : (
+                <DataSources responseData={responseData!} loading={isPending} />
+              )}
             </div>
           </div>
         </div>

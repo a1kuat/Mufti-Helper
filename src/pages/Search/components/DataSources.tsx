@@ -24,11 +24,12 @@ export const DataSources: React.FC<IDataSources> = ({ loading, responseData }) =
     link: string | null
   }>({ name: '', answer: '', auto_id: 0, distance: 0, question: '', link: '' })
 
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const [showDataSources, setShowDataSources] = useState<boolean>(false)
   
   const dataSources = responseData ? responseData.sources : [];
 
-  // Set the first data source by default when dataSources are available
   useEffect(() => {
     if (dataSources.length > 0) {
       const firstItem = dataSources[0];
@@ -47,6 +48,8 @@ export const DataSources: React.FC<IDataSources> = ({ loading, responseData }) =
         question: firstItem.question,
         link: firstItem.link,
       });
+
+      setSelectedId(firstItem.question);
     }
   }, [dataSources]);
 
@@ -61,7 +64,6 @@ export const DataSources: React.FC<IDataSources> = ({ loading, responseData }) =
       notify('Copied to clipboard!', 'success');
     });
   };
-  
 
   return (
     <div className="flex h-full">
@@ -88,7 +90,8 @@ export const DataSources: React.FC<IDataSources> = ({ loading, responseData }) =
                   .map((item: SourceType, idx: number) => (
                     <motion.article
                       key={idx}
-                      className="w-[300px] h-[9rem] smax-w-sm p-4 cursor-pointer bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between bg-gray-200"
+                      className={`w-[300px] h-[9rem] smax-w-sm p-4 cursor-pointer bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between bg-gray-200 transition-all
+                        ${selectedId === item.question ? 'border-black' : 'border-gray-200'}`}  // Only apply black border if selected
                       exit={{ opacity: 0, transition: { duration: 0.7 } }}
                       initial="hidden"
                       animate="visible"
@@ -120,6 +123,9 @@ export const DataSources: React.FC<IDataSources> = ({ loading, responseData }) =
                           question: item.question,
                           link: item.link,
                         });
+                        console.log(dataSource)
+                        setSelectedId(item.question);
+                        console.log(selectedId)
                       }}
                     >
                       <p className="font-medium text-[16px] leading-6 text-olive-green line-clamp-1 text-ellipsis text-wrap whitespace-pre-wrap">
