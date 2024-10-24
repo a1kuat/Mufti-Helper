@@ -1,1 +1,1 @@
-# GOS AI Search Engine# Mufti-Helper
+# Mufti-Helper
